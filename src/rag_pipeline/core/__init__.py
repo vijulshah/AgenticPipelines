@@ -1,5 +1,7 @@
 """Core RAG pipeline components."""
 
+from typing import Any
+
 __all__ = [
     "EmbeddingsManager",
     "LLMManager",
@@ -8,7 +10,7 @@ __all__ = [
 ]
 
 
-def __getattr__(name):  # type: ignore
+def __getattr__(name: str) -> Any:
     """Lazy imports for core components."""
     if name == "EmbeddingsManager":
         from .embeddings import EmbeddingsManager

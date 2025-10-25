@@ -1,9 +1,11 @@
 """RAG Pipeline package."""
 
+from typing import Any
+
 __version__ = "0.1.0"
 
 
-def __getattr__(name):  # type: ignore
+def __getattr__(name: str) -> Any:
     """Lazy imports for the package."""
     if name == "RAGPipeline":
         from .core.pipeline import RAGPipeline

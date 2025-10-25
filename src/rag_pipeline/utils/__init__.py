@@ -1,5 +1,7 @@
 """Utility modules for RAG pipeline."""
 
+from typing import Any
+
 __all__ = [
     "load_config",
     "load_yaml_config",
@@ -9,7 +11,7 @@ __all__ = [
 ]
 
 
-def __getattr__(name):  # type: ignore
+def __getattr__(name: str) -> Any:
     """Lazy imports for utilities."""
     if name in ("load_config", "load_yaml_config", "save_config"):
         from .config_loader import load_config, load_yaml_config, save_config
