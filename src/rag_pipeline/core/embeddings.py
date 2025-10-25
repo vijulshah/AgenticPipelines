@@ -1,7 +1,6 @@
 """Embeddings initialization and management."""
 
 import logging
-from typing import Optional
 
 from langchain_core.embeddings import Embeddings
 from langchain_openai import OpenAIEmbeddings
@@ -21,7 +20,7 @@ class EmbeddingsManager:
             embedding_config: Embedding configuration.
         """
         self.embedding_config = embedding_config
-        self._embeddings: Optional[Embeddings] = None
+        self._embeddings: Embeddings | None = None
 
     def get_embeddings(self) -> Embeddings:
         """Get or create embeddings instance.

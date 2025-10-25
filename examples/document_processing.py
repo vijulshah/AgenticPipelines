@@ -21,13 +21,13 @@ def main() -> None:
         doc1_path = docs_dir / "python_intro.txt"
         doc1_path.write_text(
             """
-            Python is a high-level, interpreted programming language known for 
-            its clear syntax and readability. It supports multiple programming 
-            paradigms including procedural, object-oriented, and functional 
+            Python is a high-level, interpreted programming language known for
+            its clear syntax and readability. It supports multiple programming
+            paradigms including procedural, object-oriented, and functional
             programming.
-            
-            Python's extensive standard library and third-party packages make 
-            it suitable for various applications including web development, 
+
+            Python's extensive standard library and third-party packages make
+            it suitable for various applications including web development,
             data analysis, machine learning, and automation.
             """
         )
@@ -35,12 +35,12 @@ def main() -> None:
         doc2_path = docs_dir / "langchain_intro.txt"
         doc2_path.write_text(
             """
-            LangChain is a framework for developing applications powered by 
-            large language models (LLMs). It provides tools and abstractions 
+            LangChain is a framework for developing applications powered by
+            large language models (LLMs). It provides tools and abstractions
             for building context-aware and reasoning applications.
-            
-            LangChain supports various components including chains, agents, 
-            memory, and retrieval systems. It integrates with multiple LLM 
+
+            LangChain supports various components including chains, agents,
+            memory, and retrieval systems. It integrates with multiple LLM
             providers and vector stores for RAG applications.
             """
         )

@@ -2,7 +2,7 @@
 
 import os
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 import yaml
 from dotenv import load_dotenv
@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from ..models.config import RAGPipelineConfig
 
 
-def load_env_file(env_path: Optional[Path] = None) -> None:
+def load_env_file(env_path: Path | None = None) -> None:
     """Load environment variables from .env file.
 
     Args:
@@ -23,7 +23,7 @@ def load_env_file(env_path: Optional[Path] = None) -> None:
         load_dotenv(env_path)
 
 
-def load_yaml_config(config_path: Path) -> Dict[str, Any]:
+def load_yaml_config(config_path: Path) -> dict[str, Any]:
     """Load configuration from YAML file.
 
     Args:
@@ -39,13 +39,13 @@ def load_yaml_config(config_path: Path) -> Dict[str, Any]:
     if not config_path.exists():
         raise FileNotFoundError(f"Config file not found: {config_path}")
 
-    with open(config_path, "r", encoding="utf-8") as f:
+    with open(config_path, encoding="utf-8") as f:
         config_data = yaml.safe_load(f)
 
     return config_data or {}
 
 
-def substitute_env_vars(config_data: Dict[str, Any]) -> Dict[str, Any]:
+def substitute_env_vars(config_data: dict[str, Any]) -> dict[str, Any]:
     """Recursively substitute environment variables in config.
 
     Replaces strings in format ${ENV_VAR} with environment variable values.
@@ -79,8 +79,8 @@ def substitute_env_vars(config_data: Dict[str, Any]) -> Dict[str, Any]:
 
 def load_config(
     config_path: Path,
-    env_path: Optional[Path] = None,
-    override_config: Optional[Dict[str, Any]] = None,
+    env_path: Path | None = None,
+    override_config: dict[str, Any] | None = None,
 ) -> RAGPipelineConfig:
     """Load and validate RAG pipeline configuration.
 
@@ -113,7 +113,7 @@ def load_config(
     return RAGPipelineConfig(**config_data)
 
 
-def deep_merge(base: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, Any]:
+def deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     """Deep merge two dictionaries.
 
     Args:

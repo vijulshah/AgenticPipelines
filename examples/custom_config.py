@@ -1,7 +1,5 @@
 """Custom configuration example."""
 
-from pathlib import Path
-
 from src.rag_pipeline import RAGPipeline, RAGPipelineConfig
 from src.rag_pipeline.models import (
     ChunkingConfig,
@@ -51,7 +49,7 @@ def main() -> None:
     # Initialize pipeline with custom config
     with RAGPipeline(config) as pipeline:
         # Add custom prompt template
-        custom_prompt = """You are a helpful AI assistant. Use the following context 
+        custom_prompt = """You are a helpful AI assistant. Use the following context
 to answer the question. Be concise and accurate.
 
 Context:
@@ -63,12 +61,12 @@ Concise Answer:"""
 
         # Add sample data
         text = """
-        FastAPI is a modern, fast web framework for building APIs with Python 
-        based on standard Python type hints. It's designed to be easy to use 
+        FastAPI is a modern, fast web framework for building APIs with Python
+        based on standard Python type hints. It's designed to be easy to use
         and high-performance, comparable to NodeJS and Go.
-        
-        FastAPI automatically generates interactive API documentation using 
-        Swagger UI and ReDoc. It provides automatic data validation using 
+
+        FastAPI automatically generates interactive API documentation using
+        Swagger UI and ReDoc. It provides automatic data validation using
         Pydantic models.
         """
 

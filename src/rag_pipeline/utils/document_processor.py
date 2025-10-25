@@ -1,7 +1,6 @@
 """Document processing utilities."""
 
 from pathlib import Path
-from typing import List, Optional
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
@@ -30,9 +29,7 @@ class DocumentProcessor:
             ],
         )
 
-    def load_text_file(
-        self, file_path: Path, metadata: Optional[dict] = None
-    ) -> Document:
+    def load_text_file(self, file_path: Path, metadata: dict | None = None) -> Document:
         """Load a text file as a Document.
 
         Args:
@@ -48,7 +45,7 @@ class DocumentProcessor:
         if not file_path.exists():
             raise FileNotFoundError(f"File not found: {file_path}")
 
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
 
         doc_metadata = metadata or {}
@@ -56,7 +53,7 @@ class DocumentProcessor:
 
         return Document(page_content=content, metadata=doc_metadata)
 
-    def chunk_documents(self, documents: List[Document]) -> List[Document]:
+    def chunk_documents(self, documents: list[Document]) -> list[Document]:
         """Split documents into chunks.
 
         Args:
@@ -68,8 +65,8 @@ class DocumentProcessor:
         return self.text_splitter.split_documents(documents)
 
     def process_text_files(
-        self, file_paths: List[Path], metadata: Optional[dict] = None
-    ) -> List[Document]:
+        self, file_paths: list[Path], metadata: dict | None = None
+    ) -> list[Document]:
         """Load and chunk multiple text files.
 
         Args:
@@ -87,8 +84,8 @@ class DocumentProcessor:
         return self.chunk_documents(documents)
 
     def process_text_content(
-        self, text: str, metadata: Optional[dict] = None
-    ) -> List[Document]:
+        self, text: str, metadata: dict | None = None
+    ) -> list[Document]:
         """Process raw text content into chunks.
 
         Args:

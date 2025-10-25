@@ -1,7 +1,7 @@
 """Tests for configuration loader utilities."""
 
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 import yaml
@@ -97,15 +97,15 @@ class TestDeepMerge:
 
     def test_simple_merge(self) -> None:
         """Test simple dictionary merge."""
-        base: Dict[str, Any] = {"a": 1, "b": 2}
-        override: Dict[str, Any] = {"b": 3, "c": 4}
+        base: dict[str, Any] = {"a": 1, "b": 2}
+        override: dict[str, Any] = {"b": 3, "c": 4}
         result = deep_merge(base, override)
         assert result == {"a": 1, "b": 3, "c": 4}
 
     def test_nested_merge(self) -> None:
         """Test nested dictionary merge."""
-        base: Dict[str, Any] = {"config": {"a": 1, "b": 2}}
-        override: Dict[str, Any] = {"config": {"b": 3, "c": 4}}
+        base: dict[str, Any] = {"config": {"a": 1, "b": 2}}
+        override: dict[str, Any] = {"config": {"b": 3, "c": 4}}
         result = deep_merge(base, override)
         assert result == {"config": {"a": 1, "b": 3, "c": 4}}
 
@@ -123,9 +123,7 @@ class TestLoadConfig:
         assert config.pipeline_name == "test_pipeline"
         assert config.embedding.api_key == "test_api_key"
 
-    def test_load_config_with_override(
-        self, temp_config_file: Path
-    ) -> None:
+    def test_load_config_with_override(self, temp_config_file: Path) -> None:
         """Test loading config with overrides."""
         override = {
             "pipeline_name": "overridden_pipeline",

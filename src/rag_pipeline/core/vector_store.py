@@ -1,7 +1,6 @@
 """Vector store initialization and management."""
 
 import logging
-from typing import List, Optional
 
 from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
@@ -30,8 +29,8 @@ class VectorStoreManager:
         """
         self.mongodb_config = mongodb_config
         self.embeddings = embeddings
-        self._client: Optional[MongoClient] = None
-        self._vector_store: Optional[VectorStore] = None
+        self._client: MongoClient | None = None
+        self._vector_store: VectorStore | None = None
 
     def _get_mongo_client(self) -> MongoClient:
         """Get or create MongoDB client.
@@ -71,7 +70,7 @@ class VectorStoreManager:
 
         return self._vector_store
 
-    def add_documents(self, documents: List[Document]) -> List[str]:
+    def add_documents(self, documents: list[Document]) -> list[str]:
         """Add documents to vector store.
 
         Args:
@@ -87,8 +86,8 @@ class VectorStoreManager:
         return doc_ids
 
     def similarity_search(
-        self, query: str, k: int = 4, score_threshold: Optional[float] = None
-    ) -> List[Document]:
+        self, query: str, k: int = 4, score_threshold: float | None = None
+    ) -> list[Document]:
         """Perform similarity search.
 
         Args:

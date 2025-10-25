@@ -1,7 +1,7 @@
 """Pydantic models for RAG pipeline configuration."""
 
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -71,12 +71,12 @@ class EmbeddingConfig(BaseModel):
         default="text-embedding-3-small",
         description="Embedding model name",
     )
-    dimensions: Optional[int] = Field(
+    dimensions: int | None = Field(
         default=1536,
         description="Embedding dimensions",
         ge=1,
     )
-    api_key: Optional[str] = Field(
+    api_key: str | None = Field(
         default=None,
         description="API key for the embedding provider",
     )
@@ -104,7 +104,7 @@ class LLMConfig(BaseModel):
         description="Maximum tokens in response",
         ge=1,
     )
-    api_key: Optional[str] = Field(
+    api_key: str | None = Field(
         default=None,
         description="API key for the LLM provider",
     )
@@ -122,7 +122,7 @@ class RetrieverConfig(BaseModel):
         description="Number of documents to retrieve",
         ge=1,
     )
-    score_threshold: Optional[float] = Field(
+    score_threshold: float | None = Field(
         default=None,
         description="Minimum relevance score threshold",
         ge=0.0,
@@ -198,8 +198,7 @@ class RAGPipelineConfig(BaseModel):
         description="Logging level",
     )
 
-    class Config:
-        """Pydantic configuration."""
-
-        use_enum_values = True
-        validate_assignment = True
+    model_config = {
+        "use_enum_values": True,
+        "validate_assignment": True,
+    }

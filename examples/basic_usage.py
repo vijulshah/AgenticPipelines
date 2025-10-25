@@ -15,16 +15,16 @@ def main() -> None:
     with RAGPipeline(config) as pipeline:
         # Add some sample text
         sample_text = """
-        Artificial Intelligence (AI) is the simulation of human intelligence 
-        processes by machines, especially computer systems. These processes 
+        Artificial Intelligence (AI) is the simulation of human intelligence
+        processes by machines, especially computer systems. These processes
         include learning, reasoning, and self-correction.
-        
-        Machine Learning is a subset of AI that provides systems the ability 
-        to automatically learn and improve from experience without being 
+
+        Machine Learning is a subset of AI that provides systems the ability
+        to automatically learn and improve from experience without being
         explicitly programmed.
-        
-        Deep Learning is a subset of machine learning that uses neural networks 
-        with multiple layers. These neural networks attempt to simulate the 
+
+        Deep Learning is a subset of machine learning that uses neural networks
+        with multiple layers. These neural networks attempt to simulate the
         behavior of the human brain to learn from large amounts of data.
         """
 

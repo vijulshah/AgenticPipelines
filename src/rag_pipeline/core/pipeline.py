@@ -2,7 +2,6 @@
 
 import logging
 from pathlib import Path
-from typing import List, Optional
 
 from langchain.chains import RetrievalQA
 from langchain_core.documents import Document
@@ -63,11 +62,11 @@ Answer:"""
         self.vector_store_manager = VectorStoreManager(config.mongodb, embeddings)
 
         # Initialize QA chain (lazy initialization)
-        self._qa_chain: Optional[RetrievalQA] = None
+        self._qa_chain: RetrievalQA | None = None
 
         self.logger.info("RAG pipeline initialization complete")
 
-    def add_documents(self, documents: List[Document]) -> List[str]:
+    def add_documents(self, documents: list[Document]) -> list[str]:
         """Add documents to the vector store.
 
         Args:
@@ -85,8 +84,8 @@ Answer:"""
         return self.vector_store_manager.add_documents(chunked_docs)
 
     def add_text_files(
-        self, file_paths: List[Path], metadata: Optional[dict] = None
-    ) -> List[str]:
+        self, file_paths: list[Path], metadata: dict | None = None
+    ) -> list[str]:
         """Load and add text files to the vector store.
 
         Args:
@@ -100,7 +99,7 @@ Answer:"""
         documents = self.document_processor.process_text_files(file_paths, metadata)
         return self.vector_store_manager.add_documents(documents)
 
-    def add_text(self, text: str, metadata: Optional[dict] = None) -> List[str]:
+    def add_text(self, text: str, metadata: dict | None = None) -> list[str]:
         """Add raw text to the vector store.
 
         Args:
@@ -131,9 +130,7 @@ Answer:"""
             search_kwargs=search_kwargs,
         )
 
-    def get_qa_chain(
-        self, prompt_template: Optional[str] = None
-    ) -> RetrievalQA:
+    def get_qa_chain(self, prompt_template: str | None = None) -> RetrievalQA:
         """Get or create QA chain.
 
         Args:
@@ -170,7 +167,7 @@ Answer:"""
         self,
         question: str,
         return_sources: bool = True,
-        prompt_template: Optional[str] = None,
+        prompt_template: str | None = None,
     ) -> dict:
         """Query the RAG pipeline.
 
@@ -204,9 +201,7 @@ Answer:"""
         self.logger.info("Query processed successfully")
         return response
 
-    def similarity_search(
-        self, query: str, k: Optional[int] = None
-    ) -> List[Document]:
+    def similarity_search(self, query: str, k: int | None = None) -> list[Document]:
         """Perform similarity search without LLM.
 
         Args:

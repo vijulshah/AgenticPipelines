@@ -1,7 +1,6 @@
 """LLM initialization and management."""
 
 import logging
-from typing import Optional
 
 from langchain_core.language_models import BaseChatModel
 from langchain_openai import ChatOpenAI
@@ -21,7 +20,7 @@ class LLMManager:
             llm_config: LLM configuration.
         """
         self.llm_config = llm_config
-        self._llm: Optional[BaseChatModel] = None
+        self._llm: BaseChatModel | None = None
 
     def get_llm(self) -> BaseChatModel:
         """Get or create LLM instance.
