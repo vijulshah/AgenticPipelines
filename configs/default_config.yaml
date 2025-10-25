@@ -1,0 +1,42 @@
+# RAG Pipeline Configuration
+
+pipeline_name: "mongodb_rag_pipeline"
+vector_store_type: "mongodb"
+
+# MongoDB Configuration
+mongodb:
+  connection_string: "${MONGODB_URI:mongodb://localhost:27017}"
+  database_name: "rag_database"
+  collection_name: "vector_store"
+  index_name: "vector_index"
+
+# Embedding Configuration
+embedding:
+  provider: "openai"
+  model_name: "text-embedding-3-small"
+  dimensions: 1536
+  api_key: "${OPENAI_API_KEY}"
+
+# LLM Configuration
+llm:
+  provider: "openai"
+  model_name: "gpt-4o-mini"
+  temperature: 0.7
+  max_tokens: 1000
+  api_key: "${OPENAI_API_KEY}"
+
+# Retriever Configuration
+retriever:
+  search_type: "similarity"
+  k: 4
+  score_threshold: null
+
+# Chunking Configuration
+chunking:
+  chunk_size: 1000
+  chunk_overlap: 200
+  separator: "\n\n"
+
+# Logging Configuration
+enable_logging: true
+log_level: "INFO"
