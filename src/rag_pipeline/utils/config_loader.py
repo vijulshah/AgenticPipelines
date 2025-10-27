@@ -134,15 +134,15 @@ def deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]
     return result
 
 
-def save_config(config: RAGPipelineConfig, output_path: Path) -> None:
+def save_config(config: "RAGPipelineConfig", output_path: Path) -> None:
     """Save configuration to YAML file.
 
     Args:
         config: RAGPipelineConfig instance.
         output_path: Path to save YAML file.
     """
-    # Convert Pydantic model to dict
-    config_dict = config.model_dump(mode="python", exclude_none=True)
+    # Convert Pydantic model to dict with enum values serialized as strings
+    config_dict = config.model_dump(mode="json", exclude_none=True)
 
     # Ensure output directory exists
     output_path.parent.mkdir(parents=True, exist_ok=True)

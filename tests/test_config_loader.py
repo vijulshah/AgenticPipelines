@@ -130,3 +130,93 @@ class TestLoadConfig:
         }
         config = load_config(temp_config_file, override_config=override)
         assert config.pipeline_name == "overridden_pipeline"
+
+    def test_save_config(self, tmp_path: Path) -> None:
+        """Test saving config to file."""
+        from src.rag_pipeline.utils.config_loader import save_config
+        from src.rag_pipeline.models.config import MongoDBConfig
+
+        config = RAGPipelineConfig(
+            pipeline_name="test_save",
+            mongodb=MongoDBConfig(connection_string="mongodb://localhost:27017"),
+        )
+
+        output_file = tmp_path / "subdir" / "output_config.yaml"
+        save_config(config, output_file)
+
+        assert output_file.exists()
+        
+        # Verify content
+        with open(output_file) as f:
+            saved_data = yaml.safe_load(f)
+        
+        assert saved_data["pipeline_name"] == "test_save"
+
+    def test_substitute_without_env_format(self) -> None:
+        """Test substitution with regular strings."""
+        config = {
+            "regular_string": "no_substitution",
+            "number": 42,
+            "boolean": True,
+        }
+        result = substitute_env_vars(config)
+        assert result["regular_string"] == "no_substitution"
+        assert result["number"] == 42
+        assert result["boolean"] is True
+
+    def test_substitute_env_var_without_default(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Test substitution without default value."""
+        monkeypatch.setenv("MY_VAR", "my_value")
+        config = {
+            "key": "${MY_VAR}",
+        }
+        result = substitute_env_vars(config)
+        assert result["key"] == "my_value"
+
+    def test_substitute_missing_env_var_without_default(self) -> None:
+        """Test substitution with missing env var and no default."""
+        config = {
+            "key": "${MISSING_VAR}",
+        }
+        result = substitute_env_vars(config)
+        # Should return the original string when env var is missing
+        assert result["key"] == "${MISSING_VAR}"
+
+    def test_load_env_file(self, tmp_path: Path) -> None:
+        """Test loading environment variables from .env file."""
+        from src.rag_pipeline.utils.config_loader import load_env_file
+
+        # Create a .env file
+        env_file = tmp_path / ".env"
+        env_file.write_text("TEST_ENV_VAR=test_value\n")
+
+        load_env_file(env_file)
+        
+        import os
+        assert os.getenv("TEST_ENV_VAR") == "test_value"
+
+    def test_load_env_file_default(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Test loading .env file from current directory."""
+        from src.rag_pipeline.utils.config_loader import load_env_file
+
+        # Change to tmp directory
+        monkeypatch.chdir(tmp_path)
+        
+        # Create .env in current directory
+        env_file = tmp_path / ".env"
+        env_file.write_text("CWD_VAR=cwd_value\n")
+
+        load_env_file()
+        
+        import os
+        assert os.getenv("CWD_VAR") == "cwd_value"
+
+    def test_load_yaml_config_empty_file(self, tmp_path: Path) -> None:
+        """Test loading empty YAML file."""
+        empty_file = tmp_path / "empty.yaml"
+        empty_file.write_text("")
+
+        result = load_yaml_config(empty_file)
+        assert result == {}
